@@ -10,7 +10,7 @@ async function bootstrap() {
   if (process.env.NODE_ENV === 'development') {
     app.enableCors();
   } else {
-    app.enableCors({ origin });
+    app.enableCors({ origin : [process.env.ORIGIN , origin] });
     logger.log(`Accepting requests from origin "${origin}"`);
   }
   const serverport = process.env.PORT || port;
