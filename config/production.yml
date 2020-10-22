@@ -1,0 +1,4 @@
+server:
+  origin: http://nest-task-manage.s3-eu-west-1.amazonaws.com
+db:
+  synchronize: false
