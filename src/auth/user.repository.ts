@@ -9,7 +9,7 @@ export class UserRepository extends Repository<User> {
   async signup(authCredentailsDto: AuthCredentialsDto): Promise<void> {
     const { username, password } = authCredentailsDto;
 
-    const user = new User();
+    const user = this.create();
     user.username = username;
     user.password = await bcrypt.hash(password, 10);
     try {
@@ -24,11 +24,17 @@ export class UserRepository extends Repository<User> {
     }
   }
   async validateUserPassword(authCredentialDto: AuthCredentialsDto): Promise<string> {
-    const {username, password} = authCredentialDto;
-    const user = await this.findOne({username})
-    if(user && await bcrypt.compare(password, user.password)){
-      return user.username
+    const { username, password } = authCredentialDto;
+    try {
+      const user = await this.findOne({ username })
+      if (user && await bcrypt.compare(password, user.password)) {
+        return user.username
+      }
+      else return null
     }
-    else return null;
+    catch (err) {
+      return null;
+    }
   }
+
 }
